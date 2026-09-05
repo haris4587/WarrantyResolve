@@ -13,4 +13,4 @@
 - [x] Verified Full Consensus transaction recorded.
 - [x] Website environment rebuilt with the verified contract address.
 - [x] Published website URL recorded.
-- [ ] Final GitHub commit SHA recorded.
+- [x] Final GitHub commit SHA recorded.
