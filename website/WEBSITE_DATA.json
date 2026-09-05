@@ -12,7 +12,7 @@
   "deployment_transaction": "0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387",
   "first_full_consensus_transaction": "0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387",
   "website_url": "https://warrantyresolve.ansaf1st33.chatgpt.site",
-  "access_mode": "custom-owner-only",
+  "access_mode": "public",
   "evidence_commit": "9883daea523b98862dd683a9444eda22a524996f",
   "policy_sha256": "1ed362c5202b74b369ff375ac63a9f386257d6987cfef04fabe8f0d324a0f021"
 }

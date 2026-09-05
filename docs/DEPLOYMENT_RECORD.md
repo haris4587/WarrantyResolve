@@ -14,7 +14,7 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | First finalized Full Consensus hash | `0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387` |
 | First demo claim ID | `Not created during the deployment smoke test` |
 | Website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` |
-| Website access mode | `Custom / owner-only` |
+| Website access mode | `Public` |
 | Published source commit | `ec6ae4fedbcce61e569a218c43d14720963291a2` |
 
 ## Evidence commit
