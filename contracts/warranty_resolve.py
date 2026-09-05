@@ -882,7 +882,11 @@ from an unsupported fact. Return JSON only:
             if self.seller_responses.get(clean_id, "") != ""
             else "CUSTOMER_EVIDENCE"
         )
-        claim["settlement_action"] = "AWAITING_SELLER_RESPONSE"
+        claim["settlement_action"] = (
+            "AWAITING_JUDGMENT"
+            if self.seller_responses.get(clean_id, "") != ""
+            else "AWAITING_SELLER_RESPONSE"
+        )
         self.claims[clean_id] = json.dumps(claim, sort_keys=True)
 
     @gl.public.write.payable
@@ -970,7 +974,11 @@ from an unsupported fact. Return JSON only:
             if self.customer_evidence.get(clean_id, "") != ""
             else "SELLER_RESPONDED"
         )
-        claim["settlement_action"] = "AWAITING_CUSTOMER_EVIDENCE"
+        claim["settlement_action"] = (
+            "AWAITING_JUDGMENT"
+            if self.customer_evidence.get(clean_id, "") != ""
+            else "AWAITING_CUSTOMER_EVIDENCE"
+        )
         self.claims[clean_id] = json.dumps(claim, sort_keys=True)
 
     def _run_judgment(self, clean_id: str, claim: dict):
