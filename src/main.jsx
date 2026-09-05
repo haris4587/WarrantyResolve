@@ -12,7 +12,7 @@ const CONTRACT_READY = CONTRACT_ADDRESS !== ZERO_ADDRESS;
 const EXPLORER = "https://explorer-studio.genlayer.com";
 const GITHUB = "https://github.com/haris4587/WarrantyResolve";
 const NETWORK = {
-  chainId: "0xf21f",
+  chainId: "0xf22f",
   chainName: "GenLayer Studio",
   nativeCurrency: { name: "GEN", symbol: "GEN", decimals: 18 },
   rpcUrls: ["https://studio.genlayer.com/api"],

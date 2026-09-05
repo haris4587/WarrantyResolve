@@ -65,7 +65,7 @@ npm run build
 
 The app requires MetaMask. It connects through the browser provider, requests
 the `GenLayer Studio` network when needed, and refuses writes unless the wallet
-is on chain `0xf21f` (decimal `61999`). The configured RPC is
+is on chain `0xf22f` (decimal `61999`). The configured RPC is
 `https://studio.genlayer.com/api` and the native token is GEN. Every write is
 tracked through a finalized receipt and only a successful execution result
 causes the dashboard to refresh as final state.

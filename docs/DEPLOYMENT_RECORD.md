@@ -8,7 +8,7 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | --- | --- |
 | Repository | `https://github.com/haris4587/WarrantyResolve` |
 | Canonical GitHub commit | `9883daea523b98862dd683a9444eda22a524996f` |
-| GenLayer network | `GenLayer Studio` / `61999` / `0xf21f` |
+| GenLayer network | `GenLayer Studio` / `61999` / `0xf22f` |
 | Contract address | `0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE` |
 | Deployment transaction hash | `0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387` |
 | First finalized Full Consensus hash | `0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387` |

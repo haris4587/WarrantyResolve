@@ -4,7 +4,7 @@
   "network": {
     "name": "GenLayer Studio",
     "chain_id": 61999,
-    "chain_id_hex": "0xf21f",
+    "chain_id_hex": "0xf22f",
     "rpc_url": "https://studio.genlayer.com/api",
     "native_token": "GEN"
   },
