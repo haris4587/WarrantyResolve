@@ -1,0 +1,9 @@
+PURCHASE RECEIPT — AURORA AUDIO
+Order: AA-ANC7-2026-0115
+Product: Aurora Audio ANC-7 headphones
+Serial: ANC7-DEMO-4417
+Purchase date: 2026-01-15
+Purchase amount: 0.010000000000000000 GEN reference value
+Seller: Aurora Audio Direct
+Customer: WarrantyResolve demo customer
+The item was sold as new with the 12-month Aurora Audio warranty.

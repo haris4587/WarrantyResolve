@@ -1,0 +1,8 @@
+PRODUCT CONDITION RECORD — ANC7-DEMO-4417
+Inspection date: 2026-08-22
+The headphones power on and the ear cushions are intact. The left channel
+produces no audio during Bluetooth and wired playback. Charging and pairing
+complete normally. No liquid indicator is triggered, and the housing shows no
+impact fracture or unauthorized modification.
+The failure appeared during ordinary indoor use and was reported within the
+manufacturer’s twelve-month warranty period.

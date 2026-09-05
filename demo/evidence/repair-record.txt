@@ -1,0 +1,7 @@
+AUTHORIZED REPAIR RECORD — AA-ANC7-2026-0115
+Repair ticket: SR-4417
+Received: 2026-08-25
+Inspection: Left-channel output failed in both wired and Bluetooth tests. No
+liquid or impact exclusion found. Driver assembly requested; stock was not
+available at the time of inspection.
+Disposition: Escalate to warranty remedy review for replacement or refund.

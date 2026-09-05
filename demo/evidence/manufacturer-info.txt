@@ -1,0 +1,7 @@
+MANUFACTURER SERVICE NOTE — AURORA AUDIO ANC-7
+Service bulletin: ANC7-L-CHANNEL-2026
+Aurora Audio confirms that an intermittent left-channel failure is a known
+manufacturing defect for a limited ANC-7 production batch. Authorized service
+may replace the left driver assembly. If the driver assembly is unavailable,
+the service center may approve replacement or refund under the warranty policy.
+This note does not cover liquid damage, impact, or unauthorized modification.

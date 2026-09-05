@@ -1,0 +1,18 @@
+{
+  "project": "WarrantyResolve",
+  "repository": "https://github.com/haris4587/WarrantyResolve",
+  "network": {
+    "name": "GenLayer Studio",
+    "chain_id": 61999,
+    "chain_id_hex": "0xf21f",
+    "rpc_url": "https://studio.genlayer.com/api",
+    "native_token": "GEN"
+  },
+  "contract_address": null,
+  "deployment_transaction": null,
+  "first_full_consensus_transaction": null,
+  "website_url": null,
+  "access_mode": null,
+  "evidence_commit": null,
+  "policy_sha256": "1ed362c5202b74b369ff375ac63a9f386257d6987cfef04fabe8f0d324a0f021"
+}

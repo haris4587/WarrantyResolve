@@ -1,0 +1,1 @@
+POLICY_EXCERPT|https://raw.githubusercontent.com/haris4587/WarrantyResolve/main/demo/evidence/appeal-policy-excerpt.txt|85f47db93a00dc4eec8cbc26748a690ec6939a12c2d4f9a8eec120728a13f97b

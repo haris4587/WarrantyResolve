@@ -1,0 +1,2 @@
+PURCHASE_RECEIPT|https://raw.githubusercontent.com/haris4587/WarrantyResolve/main/demo/evidence/purchase-receipt.txt|ceed4be6f56ea2af9076e523188b8ed44c02f1d1d41d6424659e170a12cd03b0
+PRODUCT_PHOTO|https://raw.githubusercontent.com/haris4587/WarrantyResolve/main/demo/evidence/product-condition.txt|ab250ad9a4c3b58bda437e9b0ceca208ddaa13012c5582e544184413961cff4e

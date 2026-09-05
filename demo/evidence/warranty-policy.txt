@@ -1,0 +1,33 @@
+WARRANTY POLICY — AURORA AUDIO ANC-7
+Version: 2026-01-01
+
+Coverage
+Aurora Audio covers the ANC-7 headphones for twelve months from the original
+purchase date. Coverage applies to manufacturing defects that prevent normal
+audio playback, charging, or Bluetooth operation when the product has been used
+as intended.
+
+Remedies
+After a covered defect is verified, the customer may receive a repair, a
+replacement, or a full refund of the purchase price. If an authorized repair
+attempt does not restore normal operation, a replacement or full refund is the
+preferred remedy. A partial refund may be used when the customer keeps a usable
+product and the defect affects only a separable feature.
+
+Evidence
+The customer must provide purchase evidence and enough serial, condition, or
+repair information to identify the product and the claimed failure. The seller
+may provide manufacturer information, repair records, shipping records, or a
+policy reference.
+
+Exclusions
+This policy does not cover damage caused by liquid, immersion, impact, crushing,
+unauthorized modification, misuse, or ordinary cosmetic wear. A claim first
+reported after the twelve-month period is outside warranty coverage.
+
+Shipping and repair
+Damage that occurs during a documented warranty return is reviewed separately
+from the original defect. An authorized repair record is evidence of a remedy
+attempt, not by itself proof that the original defect was excluded.
+
+This plain-text document is the complete policy for the WarrantyResolve demo.

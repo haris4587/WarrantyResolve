@@ -1,0 +1,2 @@
+MANUFACTURER_INFO|https://raw.githubusercontent.com/haris4587/WarrantyResolve/main/demo/evidence/manufacturer-info.txt|12436757dbc03ed0426dd402f083dc7dcc7f37fa70daea107043299ecff09b25
+REPAIR_RECORD|https://raw.githubusercontent.com/haris4587/WarrantyResolve/main/demo/evidence/repair-record.txt|fdb0862c1406e4a0eef21f0d25bf9d359153992863b87b157fb57143a65d8b0d
