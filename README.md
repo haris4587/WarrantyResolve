@@ -51,9 +51,9 @@ cp .env.example .env
 npm run dev
 ```
 
-Set `VITE_WARRANTY_RESOLVE_ADDRESS` to the deployed contract address before
-using live reads and writes. The site intentionally remains in handoff mode
-with a zero address until that value is verified from Studio.
+The verified Studionet address is already configured as the production fallback.
+Set `VITE_WARRANTY_RESOLVE_ADDRESS` only when intentionally targeting another
+verified deployment.
 
 The production build is:
 
@@ -113,6 +113,9 @@ document privacy controls, and independent security review.
 
 ## Links
 
+- Website: <https://warrantyresolve.ansaf1st33.chatgpt.site>
 - Repository: <https://github.com/haris4587/WarrantyResolve>
+- Deployed contract: <https://explorer-studio.genlayer.com/address/0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE>
+- Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387>
 - GenLayer docs: <https://docs.genlayer.com>
 - GenLayer Studio: <https://studio.genlayer.com>

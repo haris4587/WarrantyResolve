@@ -8,9 +8,9 @@
 - [x] Finalized reads and finalized execution-result checking in the dApp.
 - [x] Stable demo evidence files and SHA-256 manifests.
 - [x] Direct-VM tests and linter runbook.
-- [ ] Verified Studio contract address recorded.
-- [ ] Verified deployment transaction recorded.
-- [ ] Verified Full Consensus transaction recorded.
-- [ ] Website environment rebuilt with the verified contract address.
-- [ ] Published website URL recorded.
+- [x] Verified Studio contract address recorded.
+- [x] Verified deployment transaction recorded.
+- [x] Verified Full Consensus transaction recorded.
+- [x] Website environment rebuilt with the verified contract address.
+- [x] Published website URL recorded.
 - [ ] Final GitHub commit SHA recorded.

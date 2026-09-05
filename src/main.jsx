@@ -6,7 +6,7 @@ import { ExecutionResult, TransactionHashVariant, TransactionStatus } from "genl
 import "./styles.css";
 
 const CONTRACT_ADDRESS = import.meta.env.VITE_WARRANTY_RESOLVE_ADDRESS ||
-  "0x0000000000000000000000000000000000000000";
+  "0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const CONTRACT_READY = CONTRACT_ADDRESS !== ZERO_ADDRESS;
 const EXPLORER = "https://explorer-studio.genlayer.com";
