@@ -16,6 +16,6 @@
 - [x] Verified Studio contract address recorded.
 - [x] Verified deployment transaction recorded.
 - [x] Verified Full Consensus transaction recorded.
-- [x] Website environment rebuilt with the verified contract address.
-- [x] Published website URL recorded.
-- [x] Final GitHub commit SHA recorded.
+- [x] Website build generated with the verified contract address.
+- [ ] Hardened website published from the Sites workspace that owns the v2 URL.
+- [x] Hardened implementation commit SHA recorded.

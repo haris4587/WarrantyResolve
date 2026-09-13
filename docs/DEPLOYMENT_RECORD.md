@@ -7,15 +7,15 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | Field | Value |
 | --- | --- |
 | Repository | `https://github.com/haris4587/WarrantyResolve` |
-| Canonical GitHub commit | `9883daea523b98862dd683a9444eda22a524996f` |
+| Hardened implementation commit | `6edde3375ad40de9dd945bdc4b365de9a7ac8ff8` |
 | GenLayer network | `GenLayer Studio` / `61999` / `0xf22f` |
 | Contract address | `0xa125e1e62b207BeD1bD17128634a152364680546` |
 | Deployment transaction hash | `0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495` |
 | Full Consensus deployment status | `FINALIZED` |
 | First demo claim ID | `Not created during the deployment smoke test` |
-| Website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` |
-| Website access mode | `Public` |
-| Published source commit | `ec6ae4fedbcce61e569a218c43d14720963291a2` |
+| Hardened website URL | `Pending republication from the owning Sites workspace` |
+| Previous website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` (v2; obsolete contract) |
+| Website access mode | `Republication required` |
 
 ## Evidence commit
 

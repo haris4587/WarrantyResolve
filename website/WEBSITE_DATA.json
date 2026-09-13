@@ -12,8 +12,12 @@
   "deployment_transaction": "0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495",
   "first_full_consensus_transaction": "0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495",
   "full_consensus_deployment_status": "FINALIZED",
-  "website_url": "https://warrantyresolve.ansaf1st33.chatgpt.site",
-  "access_mode": "public",
+  "website_url": null,
+  "website_status": "REPUBLICATION_REQUIRED",
+  "previous_website_url": "https://warrantyresolve.ansaf1st33.chatgpt.site",
+  "previous_website_note": "v2 site; obsolete contract address",
+  "access_mode": "pending",
   "evidence_commit": "9883daea523b98862dd683a9444eda22a524996f",
+  "hardened_implementation_commit": "6edde3375ad40de9dd945bdc4b365de9a7ac8ff8",
   "policy_sha256": "1ed362c5202b74b369ff375ac63a9f386257d6987cfef04fabe8f0d324a0f021"
 }
