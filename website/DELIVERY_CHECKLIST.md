@@ -17,5 +17,5 @@
 - [x] Verified deployment transaction recorded.
 - [x] Verified Full Consensus transaction recorded.
 - [x] Website build generated with the verified contract address.
-- [ ] Hardened website published from the Sites workspace that owns the v2 URL.
+- [x] Hardened website published publicly from the current Sites account.
 - [x] Hardened implementation commit SHA recorded.

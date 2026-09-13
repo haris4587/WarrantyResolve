@@ -121,8 +121,7 @@ document privacy controls, and independent security review.
 
 ## Links
 
-- Website: pending republication from the owning Sites workspace. The previous
-  v2 site is intentionally not linked because it targets an obsolete contract.
+- Website: <https://warrantyresolve-app.usmanshazz1st.chatgpt.site>
 - Repository: <https://github.com/haris4587/WarrantyResolve>
 - Hardened v3 contract: <https://explorer-studio.genlayer.com/address/0xa125e1e62b207BeD1bD17128634a152364680546>
 - Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495>

@@ -13,9 +13,9 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | Deployment transaction hash | `0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495` |
 | Full Consensus deployment status | `FINALIZED` |
 | First demo claim ID | `Not created during the deployment smoke test` |
-| Hardened website URL | `Pending republication from the owning Sites workspace` |
+| Hardened website URL | `https://warrantyresolve-app.usmanshazz1st.chatgpt.site` |
 | Previous website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` (v2; obsolete contract) |
-| Website access mode | `Republication required` |
+| Website access mode | `Public` |
 
 ## Evidence commit
 
