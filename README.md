@@ -1,5 +1,7 @@
 # WarrantyResolve
 
+![WarrantyResolve logo](public/warrantyresolve-logo.png)
+
 WarrantyResolve is an evidence-bound warranty and refund adjudication dApp for
 GenLayer. A customer locks the claim facts and policy commitment, the seller
 accepts that exact policy and deposits GEN escrow, and GenLayer consensus
