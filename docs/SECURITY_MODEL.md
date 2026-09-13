@@ -22,14 +22,20 @@
    mutual resolution; the other party must accept a mutual resolution.
 7. Finalization and timeout windows are evaluated from on-chain time, not from
    browser clocks.
+8. Every validator performs its own full judgment and appeal assessment. An
+   exact mismatch in decision, refund basis points, appeal result, revised
+   decision, or revised basis points rejects consensus.
+9. Settlement revalidates that the current outcome equals the latest chained
+   judgment or appeal binding digest before calculating escrow transfers.
 
 ## Prompt-injection defense
 
 Policy pages, receipts, repair records, manufacturer pages, and counter-evidence
 are explicitly labeled untrusted in every prompt. The adjudicator is instructed
 to ignore commands and output-format requests inside evidence. The validator
-compares the result to the locked facts and evidence hash list instead of
-trusting the leader’s text alone.
+re-runs the full assessment from independently fetched bytes. It accepts only
+when the leader and validator agree on the outcome and exact payout fields and
+when all cited URLs belong to the independently verified fetched set.
 
 ## Known limits
 

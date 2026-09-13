@@ -14,3 +14,9 @@ The forms explain the evidence line format, policy digest boundary, payable GEN
 escrow, Full Consensus wait, appeal window, and deterministic timeout. Every
 write displays wallet-signature, submitted, consensus, finalized, or error
 state and links a real transaction hash to the Studio explorer when available.
+
+Judgment and settlement panels expose the on-chain outcome binding. The initial
+binding commits the fetched evidence set, decision, and refund basis points.
+The appeal binding chains the prior outcome and commits the appeal result,
+revised decision, and revised refund basis points after each validator has
+independently reassessed the complete original and counter-evidence set.

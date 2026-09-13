@@ -10,11 +10,13 @@ POLICY_URL = "https://demo.example/warranty-policy.txt"
 RECEIPT_URL = "https://demo.example/purchase-receipt.txt"
 CONDITION_URL = "https://demo.example/product-condition.txt"
 MANUFACTURER_URL = "https://demo.example/manufacturer-info.txt"
+APPEAL_URL = "https://demo.example/appeal-policy-excerpt.txt"
 
 POLICY = "The product has twelve months of coverage for manufacturing defects. Liquid, impact, misuse, and unauthorized modification are excluded. A covered defect may receive repair, replacement, or a full refund."
 RECEIPT = "Order AA-ANC7-2026-0115. Product ANC-7. Serial ANC7-DEMO-4417. Purchase date 2026-01-15."
 CONDITION = "The left channel failed during ordinary indoor use. No liquid indicator or impact fracture was found. The failure was reported inside the warranty period."
 MANUFACTURER = "Aurora Audio confirms that an ANC-7 left-channel failure is a known manufacturing defect in a limited batch."
+APPEAL_EVIDENCE = "The seller confirms that replacement stock is unavailable and the policy permits a proportional monetary refund after a failed repair."
 
 
 def timestamp(value):
@@ -124,9 +126,51 @@ def mock_judgment(direct_vm):
             }
         ),
     )
+
+
+def judgment_result(decision="FULL_REFUND", refund_bps=10000):
+    return json.dumps(
+        {
+            "decision": decision,
+            "refund_bps": refund_bps,
+            "confidence": "HIGH",
+            "score": 90,
+            "summary": "Evidence-grounded independent assessment.",
+            "policy_interpretation": "The committed policy controls the remedy.",
+            "customer_findings": ["The purchase is supported."],
+            "seller_findings": ["The defect context is supported."],
+            "checks": {
+                "within_warranty": "PASS",
+                "purchase_evidence": "PASS",
+                "defect_coverage": "PASS",
+                "exclusions": "PASS",
+                "repair_shipping": "UNKNOWN",
+                "manufacturer_context": "PASS",
+            },
+            "required_action": "Wait for the appeal window.",
+            "citations": [POLICY_URL, RECEIPT_URL],
+        }
+    )
+
+
+def mock_appeal(direct_vm, refund_bps=6500):
+    direct_vm.mock_web(
+        r"demo\.example/appeal-policy-excerpt\.txt",
+        {"method": "GET", "status": 200, "body": APPEAL_EVIDENCE},
+    )
     direct_vm.mock_llm(
-        r"independent validator for a warranty adjudication result",
-        json.dumps({"acceptable": True, "reason": "The proposed judgment is supported by the verified evidence."}),
+        r"neutral appeals adjudicator",
+        json.dumps(
+            {
+                "appeal_result": "OVERTURNED",
+                "revised_decision": "PARTIAL_REFUND",
+                "revised_refund_bps": refund_bps,
+                "revised_score": 88,
+                "confidence": "HIGH",
+                "summary": "The complete evidence supports a revised proportional refund.",
+                "citations": [POLICY_URL, APPEAL_URL],
+            }
+        ),
     )
 
 
@@ -157,6 +201,9 @@ def test_verified_full_refund_requires_consensus_and_is_recorded(direct_vm, dire
     assert claim["current_refund_bps"] == 10000
     assert judgment["evidence_status"] == "VERIFIED"
     assert judgment["evidence_hashes"][-1]["sha256"] == sha256(MANUFACTURER)
+    assert len(judgment["evidence_set_digest"]) == 64
+    assert len(judgment["decision_binding_digest"]) == 64
+    assert claim["current_outcome_binding_digest"] == judgment["decision_binding_digest"]
     assert direct_vm.run_validator() is True
 
 
@@ -174,3 +221,76 @@ def test_changed_evidence_fails_closed_into_retry_state(direct_vm, direct_deploy
     assert claim["current_decision"] == "PENDING"
     assert judgment["decision"] == "INSUFFICIENT_EVIDENCE"
     assert judgment["evidence_status"] == "HASH_MISMATCH"
+
+
+def test_validator_rejects_independent_refund_disagreement(direct_vm, direct_deploy, direct_alice, direct_bob):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    submit_evidence(direct_vm, contract, direct_alice, direct_bob)
+    mock_evidence(direct_vm)
+    mock_judgment(direct_vm)
+    direct_vm.sender = direct_alice
+    contract.judge_claim("warranty-demo-001")
+
+    direct_vm.clear_mocks()
+    mock_evidence(direct_vm)
+    direct_vm.mock_llm(
+        r"neutral warranty adjudicator",
+        judgment_result("PARTIAL_REFUND", 5000),
+    )
+    assert direct_vm.run_validator() is False
+
+
+def test_appeal_reassesses_all_evidence_and_binds_revised_bps(direct_vm, direct_deploy, direct_alice, direct_bob):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    submit_evidence(direct_vm, contract, direct_alice, direct_bob)
+    mock_evidence(direct_vm)
+    mock_judgment(direct_vm)
+    direct_vm.sender = direct_alice
+    contract.judge_claim("warranty-demo-001")
+    assert direct_vm.run_validator() is True
+
+    mock_appeal(direct_vm, 6500)
+    contract.appeal_claim(
+        "warranty-demo-001",
+        "appeal-demo-001",
+        "The failed repair and unavailable replacement require a proportional monetary remedy.",
+        f"POLICY_EXCERPT|{APPEAL_URL}|{sha256(APPEAL_EVIDENCE)}",
+    )
+    appeal = json.loads(contract.get_appeal("appeal-demo-001"))
+    claim = json.loads(contract.get_claim("warranty-demo-001"))
+    assert appeal["appeal_result"] == "OVERTURNED"
+    assert appeal["revised_decision"] == "PARTIAL_REFUND"
+    assert appeal["revised_refund_bps"] == 6500
+    assert len(appeal["appeal_evidence_set_digest"]) == 64
+    assert len(appeal["appeal_binding_digest"]) == 64
+    assert claim["current_outcome_binding_digest"] == appeal["appeal_binding_digest"]
+    assert direct_vm.run_validator() is True
+
+    direct_vm.warp("2026-01-15T10:06:00Z")
+    contract.release_refund("warranty-demo-001")
+    settled = json.loads(contract.get_claim("warranty-demo-001"))
+    assert settled["status"] == "SETTLED"
+    assert settled["customer_paid_wei"] == str(13 * WEI // 10)
+    assert settled["seller_returned_wei"] == str(7 * WEI // 10)
+
+
+def test_appeal_validator_rejects_revised_bps_disagreement(direct_vm, direct_deploy, direct_alice, direct_bob):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    submit_evidence(direct_vm, contract, direct_alice, direct_bob)
+    mock_evidence(direct_vm)
+    mock_judgment(direct_vm)
+    direct_vm.sender = direct_alice
+    contract.judge_claim("warranty-demo-001")
+    assert direct_vm.run_validator() is True
+
+    mock_appeal(direct_vm, 6500)
+    contract.appeal_claim(
+        "warranty-demo-001",
+        "appeal-demo-002",
+        "The failed repair and unavailable replacement require a proportional monetary remedy.",
+        f"POLICY_EXCERPT|{APPEAL_URL}|{sha256(APPEAL_EVIDENCE)}",
+    )
+    direct_vm.clear_mocks()
+    mock_evidence(direct_vm)
+    mock_appeal(direct_vm, 6000)
+    assert direct_vm.run_validator() is False

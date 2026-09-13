@@ -5,9 +5,9 @@
 The contract treats party-supplied text and fetched web pages as untrusted. It
 stores a compact JSON record for each claim rather than attempting to store
 large documents on chain. Each evidence entry contains a type, canonical HTTPS
-URL, and SHA-256 digest. During consensus the leader and validator independently
-fetch the bytes, recompute the digest, and carry the verified hash list into the
-judgment record.
+URL, and SHA-256 digest. During consensus every validator independently fetches
+the bytes, recomputes the digest, performs its own evidence assessment, and
+compares its decision and exact refund basis points with the leader output.
 
 ```text
 MetaMask wallet
@@ -34,12 +34,17 @@ made. It receives locked claim facts, the seller’s exact policy commitment,
 statements, and the verified evidence body. The prompt explicitly treats all
 evidence as data, rejects embedded instructions, and constrains the response to
 a small decision schema. `_validate_leader_judgment` independently fetches the
-same manifests and checks decision bounds, citations, hashes, and an independent
-validator response before `_store_judgment` can advance the claim.
+same manifests and calls `_analyze_claim` again. Consensus accepts only an exact
+match on evidence status, evidence-set digest, decision, refund basis points,
+and decision-binding digest before `_store_judgment` can advance the claim.
 
-Appeals use a separate consensus boundary over counter-evidence. The appeal
-result is either `UPHELD` or `OVERTURNED`; it is still bounded to two appeals and
-reopens only the finalization window, not the escrow arithmetic.
+Appeals use a separate consensus boundary that re-fetches the original evidence
+as well as the counter-evidence. Each validator independently reassesses the
+appeal and must exactly match the appeal result, revised decision, and revised
+refund basis points. The appeal binding chains the prior outcome digest,
+original judgment digest, appeal reason, counter-evidence manifest, complete
+fetched evidence set, appeal outcome, and revised payout. Appeals remain bounded
+to two and reopen only the finalization window, not the escrow arithmetic.
 
 ## Settlement state machine
 

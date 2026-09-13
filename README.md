@@ -16,8 +16,9 @@ appeal windows, escrow arithmetic, and timeout recovery.
 - `demo/evidence/` — stable, hashable warranty evidence documents.
 - `demo/manifests/` — manifests ready for the raw GitHub URLs after the first
   GitHub commit.
-- `tests/direct/` — direct-VM tests for claim binding, a verified judgment, and
-  fail-closed hash mismatch behavior.
+- `tests/direct/` — direct-VM tests for claim binding, verified judgments,
+  fail-closed hash mismatches, and validator disagreement on both initial and
+  appealed payout basis points.
 - `docs/` and `website/` — architecture, security, deployment, interface, and
   submission records.
 
@@ -30,10 +31,14 @@ appeal windows, escrow arithmetic, and timeout recovery.
 3. `submit_seller_response` requires the seller to repeat the exact policy
    commitment, submit seller evidence, and deposit non-zero GEN escrow.
 4. `judge_claim` runs the policy/evidence analysis through GenLayer consensus.
-   Validators independently re-fetch committed URLs and reject a result whose
-   evidence bytes do not match their committed SHA-256 digests.
-5. `appeal_claim` can reopen the appeal window with counter-evidence. The
-   parties can also propose and accept a mutual resolution.
+   Every validator independently re-fetches the committed URLs, reassesses the
+   complete evidence, and must reach the same decision and exact refund basis
+   points. The result stores an evidence-set digest and decision-binding digest.
+5. `appeal_claim` makes every validator re-fetch both the original evidence and
+   counter-evidence and independently reassess the appeal. The appeal result,
+   revised decision, and exact revised refund basis points are committed in a
+   second binding digest. The parties can also propose and accept a mutual
+   resolution.
 6. `release_refund` pays the customer share and returns the remainder to the
    seller only after the appeal window, or returns the full escrow after a
    protected timeout.
@@ -93,7 +98,8 @@ pytest -q tests/direct
 ```
 
 The direct tests mock the external web/LLM boundary and exercise the contract
-state machine. Studio validation remains the source of truth before deployment;
+state machine, including explicit rejection when a validator independently
+chooses a different decision or payout. Studio validation remains the source of truth before deployment;
 the final contract address, deployment transaction, and finalized consensus
 transaction are recorded in `docs/DEPLOYMENT_RECORD.md`.
 
@@ -104,6 +110,8 @@ transaction are recorded in `docs/DEPLOYMENT_RECORD.md`.
 - Only the designated parties can submit evidence, adjudicate, appeal, or agree.
 - Seller funds are escrowed before adjudication and are settled exactly once.
 - A bounded appeal window and a deterministic timeout prevent permanent locks.
+- `release_refund` refuses settlement unless the current decision and basis
+  points still match the latest judgment or appeal binding digest.
 - The dApp never invents claim rows, judgment text, wallet addresses, or
   transaction hashes; all live records come from finalized chain reads.
 
@@ -115,7 +123,7 @@ document privacy controls, and independent security review.
 
 - Website: <https://warrantyresolve.ansaf1st33.chatgpt.site>
 - Repository: <https://github.com/haris4587/WarrantyResolve>
-- Deployed contract: <https://explorer-studio.genlayer.com/address/0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE>
-- Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387>
+- Hardened v3 contract: <https://explorer-studio.genlayer.com/address/0xa125e1e62b207BeD1bD17128634a152364680546>
+- Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495>
 - GenLayer docs: <https://docs.genlayer.com>
 - GenLayer Studio: <https://studio.genlayer.com>

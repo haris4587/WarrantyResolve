@@ -9,9 +9,9 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | Repository | `https://github.com/haris4587/WarrantyResolve` |
 | Canonical GitHub commit | `9883daea523b98862dd683a9444eda22a524996f` |
 | GenLayer network | `GenLayer Studio` / `61999` / `0xf22f` |
-| Contract address | `0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE` |
-| Deployment transaction hash | `0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387` |
-| First finalized Full Consensus hash | `0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387` |
+| Contract address | `0xa125e1e62b207BeD1bD17128634a152364680546` |
+| Deployment transaction hash | `0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495` |
+| Full Consensus deployment status | `FINALIZED` |
 | First demo claim ID | `Not created during the deployment smoke test` |
 | Website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` |
 | Website access mode | `Public` |
@@ -28,9 +28,9 @@ replace `main` with the recorded commit SHA before hashing and opening the claim
 
 The canonical contract was deployed with `Normal (Full Consensus)` selected.
 The deployment progressed through proposing, committing, revealing, accepted,
-and finalized states. A finalized `get_totals` read returned a valid empty
+and finalized states. A `get_totals` read against `Finalized` state returned a valid empty
 ledger with zero claims, evidence submissions, judgments, appeals, resolutions,
 and escrowed wei.
 
-- Contract explorer: <https://explorer-studio.genlayer.com/address/0x8Cf44afcb38e342B11d18D2D2Bc91858BE0017CE>
-- Deployment transaction: <https://explorer-studio.genlayer.com/tx/0x1a6fb67d7aa34ace21f9821b5d8db2c599595d375c7e3f0e704bfdb76774e387>
+- Contract explorer: <https://explorer-studio.genlayer.com/address/0xa125e1e62b207BeD1bD17128634a152364680546>
+- Deployment transaction: <https://explorer-studio.genlayer.com/tx/0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495>
