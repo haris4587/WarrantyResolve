@@ -7,7 +7,7 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | Field | Value |
 | --- | --- |
 | Repository | `https://github.com/haris4587/WarrantyResolve` |
-| Evidence-bound v4 implementation commit | `TBD_AFTER_GITHUB_PUSH` |
+| Evidence-bound v4 implementation commit | `7cbe168441ad798b8c64eeba3f0d6d157678f154` |
 | GenLayer network | `GenLayer Studio` / `61999` / `0xf22f` |
 | Contract address | `0x9997c4E5478893b90a38EB28dEcE57e409012e2f` |
 | Deployment transaction hash | `0xeda17e3a1927b6272658b7c2cdff1a23e563f2b2024cd9d641bd344a69e17967` |

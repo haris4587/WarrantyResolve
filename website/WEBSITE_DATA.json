@@ -15,7 +15,7 @@
   "website_url": "https://warrantyresolve-app.usmanshazz1st.chatgpt.site",
   "website_status": "PUBLISHED",
   "access_mode": "public",
-  "evidence_commit": "TBD_AFTER_GITHUB_PUSH",
-  "evidence_bound_v4_implementation_commit": "TBD_AFTER_GITHUB_PUSH",
+  "evidence_commit": "7cbe168441ad798b8c64eeba3f0d6d157678f154",
+  "evidence_bound_v4_implementation_commit": "7cbe168441ad798b8c64eeba3f0d6d157678f154",
   "policy_sha256": "1ed362c5202b74b369ff375ac63a9f386257d6987cfef04fabe8f0d324a0f021"
 }
