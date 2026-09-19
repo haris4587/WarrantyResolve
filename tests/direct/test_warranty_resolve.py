@@ -2,6 +2,8 @@ import hashlib
 import json
 from datetime import datetime, timezone
 
+import pytest
+
 
 CONTRACT = "contracts/warranty_resolve.py"
 WEI = 10**18
@@ -39,7 +41,7 @@ def customer_manifest(receipt_hash=None):
     return "\n".join(
         [
             f"PURCHASE_RECEIPT|{RECEIPT_URL}|{receipt_hash or sha256(RECEIPT)}",
-            f"PRODUCT_PHOTO|{CONDITION_URL}|{sha256(CONDITION)}",
+            f"PRODUCT_CONDITION_REPORT|{CONDITION_URL}|{sha256(CONDITION)}",
         ]
     )
 
@@ -79,7 +81,7 @@ def submit_evidence(direct_vm, contract, customer, seller, bad_receipt_hash=None
         "The left channel stopped working during normal use within the warranty period. The receipt and condition record identify the product and show no exclusion.",
     )
     direct_vm.sender = seller
-    direct_vm.value = 2 * WEI
+    direct_vm.value = 10 * WEI
     contract.submit_seller_response(
         "warranty-demo-001",
         POLICY_URL,
@@ -182,7 +184,50 @@ def test_open_claim_binds_parties_policy_and_deadlines(direct_vm, direct_deploy,
     assert claim["customer"].lower() == address_hex(direct_alice).lower()
     assert claim["seller"].lower() == address_hex(direct_bob).lower()
     assert claim["policy_sha256"] == sha256(POLICY)
+    assert claim["refund_basis"] == "LOCKED_PURCHASE_AMOUNT_ESCROW"
+    assert claim["payout_basis_wei"] == str(10 * WEI)
     assert len(claim["terms_hash"]) == 64
+
+
+def test_seller_escrow_must_exactly_equal_locked_purchase_amount(
+    direct_vm, direct_deploy, direct_alice, direct_bob
+):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    direct_vm.sender = direct_bob
+    direct_vm.value = 2 * WEI
+
+    with pytest.raises(Exception, match="exactly equal the locked purchase amount"):
+        contract.submit_seller_response(
+            "warranty-demo-001",
+            POLICY_URL,
+            sha256(POLICY),
+            seller_manifest(),
+            "The seller accepts the locked policy but supplies insufficient collateral.",
+            10000,
+            True,
+            True,
+        )
+
+
+def test_product_photo_type_is_rejected_as_unsupported_binary_evidence(
+    direct_vm, direct_deploy, direct_alice, direct_bob
+):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    direct_vm.sender = direct_alice
+    direct_vm.value = 0
+    manifest = "\n".join(
+        [
+            f"PURCHASE_RECEIPT|{RECEIPT_URL}|{sha256(RECEIPT)}",
+            f"PRODUCT_PHOTO|{CONDITION_URL}|{sha256(CONDITION)}",
+        ]
+    )
+
+    with pytest.raises(Exception, match="Unsupported customer evidence type: PRODUCT_PHOTO"):
+        contract.submit_customer_evidence(
+            "warranty-demo-001",
+            manifest,
+            "The receipt and binary product photo are supplied for this warranty claim.",
+        )
 
 
 def test_verified_full_refund_requires_consensus_and_is_recorded(direct_vm, direct_deploy, direct_alice, direct_bob):
@@ -200,6 +245,8 @@ def test_verified_full_refund_requires_consensus_and_is_recorded(direct_vm, dire
     assert claim["current_decision"] == "FULL_REFUND"
     assert claim["current_refund_bps"] == 10000
     assert judgment["evidence_status"] == "VERIFIED"
+    assert judgment["refund_basis"] == "LOCKED_PURCHASE_AMOUNT_ESCROW"
+    assert judgment["payout_basis_wei"] == str(10 * WEI)
     assert judgment["evidence_hashes"][-1]["sha256"] == sha256(MANUFACTURER)
     assert len(judgment["evidence_set_digest"]) == 64
     assert len(judgment["decision_binding_digest"]) == 64
@@ -261,6 +308,8 @@ def test_appeal_reassesses_all_evidence_and_binds_revised_bps(direct_vm, direct_
     assert appeal["appeal_result"] == "OVERTURNED"
     assert appeal["revised_decision"] == "PARTIAL_REFUND"
     assert appeal["revised_refund_bps"] == 6500
+    assert appeal["refund_basis"] == "LOCKED_PURCHASE_AMOUNT_ESCROW"
+    assert appeal["payout_basis_wei"] == str(10 * WEI)
     assert len(appeal["appeal_evidence_set_digest"]) == 64
     assert len(appeal["appeal_binding_digest"]) == 64
     assert claim["current_outcome_binding_digest"] == appeal["appeal_binding_digest"]
@@ -270,8 +319,8 @@ def test_appeal_reassesses_all_evidence_and_binds_revised_bps(direct_vm, direct_
     contract.release_refund("warranty-demo-001")
     settled = json.loads(contract.get_claim("warranty-demo-001"))
     assert settled["status"] == "SETTLED"
-    assert settled["customer_paid_wei"] == str(13 * WEI // 10)
-    assert settled["seller_returned_wei"] == str(7 * WEI // 10)
+    assert settled["customer_paid_wei"] == str(65 * WEI // 10)
+    assert settled["seller_returned_wei"] == str(35 * WEI // 10)
 
 
 def test_appeal_validator_rejects_revised_bps_disagreement(direct_vm, direct_deploy, direct_alice, direct_bob):
@@ -294,3 +343,37 @@ def test_appeal_validator_rejects_revised_bps_disagreement(direct_vm, direct_dep
     mock_evidence(direct_vm)
     mock_appeal(direct_vm, 6000)
     assert direct_vm.run_validator() is False
+
+
+def test_counterparty_accepts_mutual_resolution_and_settles_exact_basis(
+    direct_vm, direct_deploy, direct_alice, direct_bob
+):
+    contract = deploy_claim(direct_vm, direct_deploy, direct_alice, direct_bob)
+    submit_evidence(direct_vm, contract, direct_alice, direct_bob)
+
+    direct_vm.sender = direct_alice
+    contract.propose_mutual_resolution(
+        "warranty-demo-001",
+        "resolution-demo-001",
+        4000,
+        "Customer receives forty percent of the locked purchase amount escrow.",
+    )
+    pending = json.loads(contract.get_resolution("resolution-demo-001"))
+    assert pending["status"] == "PENDING_ACCEPTANCE"
+    assert pending["refund_basis"] == "LOCKED_PURCHASE_AMOUNT_ESCROW"
+    assert pending["payout_basis_wei"] == str(10 * WEI)
+
+    direct_vm.sender = direct_bob
+    contract.accept_mutual_resolution(
+        "warranty-demo-001", "resolution-demo-001"
+    )
+    accepted = json.loads(contract.get_resolution("resolution-demo-001"))
+    settled = json.loads(contract.get_claim("warranty-demo-001"))
+    totals = json.loads(contract.get_totals())
+
+    assert accepted["status"] == "ACCEPTED_AND_SETTLED"
+    assert accepted["customer_paid_wei"] == str(4 * WEI)
+    assert accepted["seller_returned_wei"] == str(6 * WEI)
+    assert settled["status"] == "SETTLED"
+    assert settled["escrow_remaining_wei"] == "0"
+    assert totals["locked_wei"] == "0"

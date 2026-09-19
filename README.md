@@ -4,7 +4,8 @@
 
 WarrantyResolve is an evidence-bound warranty and refund adjudication dApp for
 GenLayer. A customer locks the claim facts and policy commitment, the seller
-accepts that exact policy and deposits GEN escrow, and GenLayer consensus
+accepts that exact policy and deposits GEN escrow equal to the recorded purchase
+amount, and GenLayer consensus
 interprets the policy and evidence. The contract keeps the safety-critical
 parts deterministic: party permissions, immutable terms, evidence digests,
 appeal windows, escrow arithmetic, and timeout recovery.
@@ -19,7 +20,8 @@ appeal windows, escrow arithmetic, and timeout recovery.
 - `demo/manifests/` — manifests ready for the raw GitHub URLs after the first
   GitHub commit.
 - `tests/direct/` — direct-VM tests for claim binding, verified judgments,
-  fail-closed hash mismatches, and validator disagreement on both initial and
+  fail-closed hash mismatches, exact escrow funding, restricted text evidence,
+  mutual-resolution acceptance, and validator disagreement on both initial and
   appealed payout basis points.
 - `docs/` and `website/` — architecture, security, deployment, interface, and
   submission records.
@@ -29,18 +31,21 @@ appeal windows, escrow arithmetic, and timeout recovery.
 1. `open_claim` commits the customer, seller, product, dates, requested remedy,
    policy URL/digest, and bounded deadlines.
 2. `submit_customer_evidence` commits a customer manifest. It must contain a
-   purchase receipt and a product, serial, or repair record.
+   purchase receipt and a UTF-8 condition, serial, or repair record. Binary
+   `PRODUCT_PHOTO` evidence is not accepted.
 3. `submit_seller_response` requires the seller to repeat the exact policy
-   commitment, submit seller evidence, and deposit non-zero GEN escrow.
+   commitment, submit seller evidence, and deposit GEN exactly equal to the
+   immutable `purchase_amount_wei`.
 4. `judge_claim` runs the policy/evidence analysis through GenLayer consensus.
    Every validator independently re-fetches the committed URLs, reassesses the
    complete evidence, and must reach the same decision and exact refund basis
-   points. The result stores an evidence-set digest and decision-binding digest.
+   points. Every percentage is explicitly based on the locked purchase-amount
+   escrow. The result stores an evidence-set digest and decision-binding digest.
 5. `appeal_claim` makes every validator re-fetch both the original evidence and
    counter-evidence and independently reassess the appeal. The appeal result,
    revised decision, and exact revised refund basis points are committed in a
-   second binding digest. The parties can also propose and accept a mutual
-   resolution.
+   second binding digest. The parties can also propose a mutual resolution; the
+   app loads it and exposes `accept_mutual_resolution` only to the counterparty.
 6. `release_refund` pays the customer share and returns the remainder to the
    seller only after the appeal window, or returns the full escrow after a
    protected timeout.
@@ -85,11 +90,13 @@ Each line is:
 TYPE|https://public.example/path.txt|lowercase-64-character-sha256
 ```
 
-URLs must be public HTTPS paths without query strings or fragments. Evidence is
-untrusted data, not instructions. The contract verifies the fetched bytes before
-the leader prompt and again in the validator boundary. Missing, unavailable, or
-changed evidence becomes a safe non-settlement result that can be retried while
-the review window is open.
+URLs must be public HTTPS paths without query strings or fragments. All accepted
+evidence is a UTF-8 text record; binary bytes and NUL-containing data fail closed
+as `UNSUPPORTED_FORMAT`. Evidence is untrusted data, not instructions. The
+contract verifies the fetched bytes before the leader prompt and again in the
+validator boundary. Missing, unavailable, changed, or unsupported evidence
+becomes a safe non-settlement result that can be retried while the review window
+is open.
 
 ## Verification
 
@@ -109,8 +116,10 @@ transaction are recorded in `docs/DEPLOYMENT_RECORD.md`.
 
 - No positive payout can be derived from an unavailable or changed evidence page.
 - Policy URL and policy digest are immutable and must be accepted by the seller.
+- Seller escrow must exactly equal the immutable purchase amount; judgment,
+  appeal, and mutual-resolution basis points all use that same monetary basis.
 - Only the designated parties can submit evidence, adjudicate, appeal, or agree.
-- Seller funds are escrowed before adjudication and are settled exactly once.
+- Seller funds are fully escrowed before adjudication and are settled exactly once.
 - A bounded appeal window and a deterministic timeout prevent permanent locks.
 - `release_refund` refuses settlement unless the current decision and basis
   points still match the latest judgment or appeal binding digest.
@@ -125,7 +134,7 @@ document privacy controls, and independent security review.
 
 - Website: <https://warrantyresolve-app.usmanshazz1st.chatgpt.site>
 - Repository: <https://github.com/haris4587/WarrantyResolve>
-- Hardened v3 contract: <https://explorer-studio.genlayer.com/address/0xa125e1e62b207BeD1bD17128634a152364680546>
-- Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495>
+- Evidence-bound v4 contract: <https://explorer-studio.genlayer.com/address/0x9997c4E5478893b90a38EB28dEcE57e409012e2f>
+- Finalized Full Consensus deployment: <https://explorer-studio.genlayer.com/tx/0xeda17e3a1927b6272658b7c2cdff1a23e563f2b2024cd9d641bd344a69e17967>
 - GenLayer docs: <https://docs.genlayer.com>
 - GenLayer Studio: <https://studio.genlayer.com>

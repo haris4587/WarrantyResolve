@@ -7,7 +7,9 @@ stores a compact JSON record for each claim rather than attempting to store
 large documents on chain. Each evidence entry contains a type, canonical HTTPS
 URL, and SHA-256 digest. During consensus every validator independently fetches
 the bytes, recomputes the digest, performs its own evidence assessment, and
-compares its decision and exact refund basis points with the leader output.
+compares its decision, exact refund basis points, and locked monetary basis with
+the leader output. Accepted evidence must decode as strict UTF-8 and contain no
+NUL bytes; genuine binary `PRODUCT_PHOTO` input is intentionally unsupported.
 
 ```text
 MetaMask wallet
@@ -36,7 +38,8 @@ evidence as data, rejects embedded instructions, and constrains the response to
 a small decision schema. `_validate_leader_judgment` independently fetches the
 same manifests and calls `_analyze_claim` again. Consensus accepts only an exact
 match on evidence status, evidence-set digest, decision, refund basis points,
-and decision-binding digest before `_store_judgment` can advance the claim.
+`LOCKED_PURCHASE_AMOUNT_ESCROW`, `payout_basis_wei`, and the decision-binding
+digest before `_store_judgment` can advance the claim.
 
 Appeals use a separate consensus boundary that re-fetches the original evidence
 as well as the counter-evidence. Each validator independently reassesses the
@@ -45,6 +48,10 @@ refund basis points. The appeal binding chains the prior outcome digest,
 original judgment digest, appeal reason, counter-evidence manifest, complete
 fetched evidence set, appeal outcome, and revised payout. Appeals remain bounded
 to two and reopen only the finalization window, not the escrow arithmetic.
+
+`submit_seller_response` accepts only a payable value exactly equal to the
+claim's immutable `purchase_amount_wei`. Judgment, appeal, and mutual-resolution
+basis points therefore always refer to one economically consistent base.
 
 ## Settlement state machine
 
@@ -70,3 +77,7 @@ normal read for compatibility. Writes use `genlayer-js` with the browser wallet,
 wait for `FINALIZED`, check `txExecutionResultName === FINISHED_WITH_RETURN`, and
 then read the finalized claim again. No optimistic payout or fake activity row
 is displayed.
+
+The app reads `open_resolution_id`, loads `get_resolution`, and exposes
+`accept_mutual_resolution` to the non-proposing connected party. Acceptance is
+a distinct signed transaction, not an implied UI state.

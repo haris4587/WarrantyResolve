@@ -7,14 +7,13 @@ the finalized transaction receipt, the GitHub API, and the hosting deployment.
 | Field | Value |
 | --- | --- |
 | Repository | `https://github.com/haris4587/WarrantyResolve` |
-| Hardened implementation commit | `6edde3375ad40de9dd945bdc4b365de9a7ac8ff8` |
+| Evidence-bound v4 implementation commit | `TBD_AFTER_GITHUB_PUSH` |
 | GenLayer network | `GenLayer Studio` / `61999` / `0xf22f` |
-| Contract address | `0xa125e1e62b207BeD1bD17128634a152364680546` |
-| Deployment transaction hash | `0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495` |
+| Contract address | `0x9997c4E5478893b90a38EB28dEcE57e409012e2f` |
+| Deployment transaction hash | `0xeda17e3a1927b6272658b7c2cdff1a23e563f2b2024cd9d641bd344a69e17967` |
 | Full Consensus deployment status | `FINALIZED` |
 | First demo claim ID | `Not created during the deployment smoke test` |
-| Hardened website URL | `https://warrantyresolve-app.usmanshazz1st.chatgpt.site` |
-| Previous website URL | `https://warrantyresolve.ansaf1st33.chatgpt.site` (v2; obsolete contract) |
+| Public website URL | `https://warrantyresolve-app.usmanshazz1st.chatgpt.site` |
 | Website access mode | `Public` |
 
 ## Evidence commit
@@ -32,5 +31,5 @@ and finalized states. A `get_totals` read against `Finalized` state returned a v
 ledger with zero claims, evidence submissions, judgments, appeals, resolutions,
 and escrowed wei.
 
-- Contract explorer: <https://explorer-studio.genlayer.com/address/0xa125e1e62b207BeD1bD17128634a152364680546>
-- Deployment transaction: <https://explorer-studio.genlayer.com/tx/0xcd1101a704d2a9be8eebd8075c28d0e36fb551976b709437b48778ffa8505495>
+- Contract explorer: <https://explorer-studio.genlayer.com/address/0x9997c4E5478893b90a38EB28dEcE57e409012e2f>
+- Deployment transaction: <https://explorer-studio.genlayer.com/tx/0xeda17e3a1927b6272658b7c2cdff1a23e563f2b2024cd9d641bd344a69e17967>

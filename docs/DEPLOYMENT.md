@@ -37,7 +37,8 @@ honestly. The second account must be the seller address used in `open_claim`.
 2. As the customer, submit `demo/manifests/customer.txt` and the customer
    statement.
 3. Switch MetaMask to the seller account. Submit the exact policy URL/digest,
-   `demo/manifests/seller.txt`, a seller response, and a non-zero GEN value.
+   `demo/manifests/seller.txt`, a seller response, and GEN exactly equal to the
+   claim's recorded purchase amount.
 4. As either party, call `judge_claim` with the claim ID using Full Consensus.
 5. Wait for the finalized transaction and verify `get_claim` is `JUDGED`, with a
    non-empty `get_latest_judgment` and verified evidence hashes.

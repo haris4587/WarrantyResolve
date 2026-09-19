@@ -13,5 +13,7 @@ genvm-lint check contracts/warranty_resolve.py
 pytest -q tests/direct
 ```
 
-The tests intentionally include a changed-evidence case. A digest mismatch must
-produce `EVIDENCE_REVIEW` and `INSUFFICIENT_EVIDENCE`, never a positive payout.
+The nine tests cover changed evidence, independent validator disagreement,
+appeal revisions, exact purchase-amount escrow, rejection of `PRODUCT_PHOTO`,
+and counterparty acceptance of a mutual resolution. A digest or format failure
+must never create a positive payout.
